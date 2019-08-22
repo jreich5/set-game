@@ -1,14 +1,34 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.App {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    grid-gap: 10px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+body {
+    text-align: center;
+    background: url("./img/table-background.jpg") no-repeat;
+    background-size: 100% 100vh;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+    background: rosybrown;
+    color: white;
+    padding: .2em 0;
+    font-size: 1.4em;
+}
+
+header h1 {
+
+}
+
+.Card {
+    height: 110px;
+    width: 200px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: 1px solid black;
+    border-radius: 5px;
 }
