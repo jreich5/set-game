@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 .App {
     display: grid;
     grid-template-columns: repeat(9, 1fr);
@@ -13,22 +17,71 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+main {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-areas: 
+        "header header header"
+        "gameController cards ."
+        "players players players";
+}
+
 header {
     background: rosybrown;
     color: white;
     padding: .2em 0;
     font-size: 1.4em;
+    grid-area: header;
 }
 
-header h1 {
-
+.board-cards {
+    display: inline-grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    margin: 2em auto;
+    grid-gap: 1em;
+    padding: 1em;
+    grid-auto-flow: column;
+    grid-area: cards;
 }
-
-.Card {
-    height: 110px;
-    width: 200px;
-    background-size: contain;
+.card {
+    height: 150px;
+    width: 270px;
+    background-size: cover;
     background-repeat: no-repeat;
-    border: 1px solid black;
+    border: 5px solid black;
     border-radius: 5px;
+    filter: brightness(95%)
+}
+
+.card:hover {
+    filter: brightness(105%);
+}
+
+.selected-card {
+    border-color: yellow;
+    filter: brightness(105%)
+}
+
+.game-controller {
+    grid-area: gameController;
+    display: flex;
+    flex-direction: column;
+    margin-top: 46px;
+    align-items: center;
+}
+
+.game-controller button {
+    padding: 1em 0;
+    font-size: 1em;
+    margin: .2em;
+    background: slateblue;
+    font-weight: bold;
+    color: white;
+    filter: brightness(90%);
+    width: 200px;
+}
+
+.game-controller button:hover {
+    filter: brightness(100%);
 }
