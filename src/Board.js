@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Cards from './Cards';
 
 class Board extends Component {
 
@@ -9,7 +10,7 @@ class Board extends Component {
   render() {
     return (
       <div>
-        
+        <Cards boardCards={this.props.boardCards} />
       </div>
     );
   }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Board from './Board.js';
+import GameController from './GameController.js';
 
 class Game extends Component {
 
@@ -45,7 +46,7 @@ class Game extends Component {
   }
 
   addPlayer = () => {
-    const playerNo = (this.players.length !== 0) ? this.players[this.players.length -1].playerNo + 1 : 1;
+    const playerNo = (this.state.players.length !== 0) ? this.state.players[this.state.players.length -1].playerNo + 1 : 1;
     const score = 0;
     const name = "";
     const playerCards = [];
@@ -68,6 +69,16 @@ class Game extends Component {
     this.setState({boardCards, cardsInDeck, players, gameIsOn, setInPlay});
   }
 
+  // setSetInPlay = bool => {
+  //   this.setState({setInPlay: bool});
+  // }
+
+  // addCardToSet = (playerId, cardId) => {
+  //   if () {
+
+  //   }
+  // }
+
   endGame = () => {
 
   }
@@ -77,7 +88,7 @@ class Game extends Component {
   }
 
   addCards = () => {
-
+    
   }
 
   startSet = () => {
@@ -94,7 +105,15 @@ class Game extends Component {
         <header>
           <h1>Welcome to Set!</h1>
         </header>
-        <Board boardCards={this.boardCards} setInPlay={this.setInPlay} />
+        {console.log(this.state.players.length)}
+        <Board boardCards={this.state.boardCards} setInPlay={this.setInPlay} />
+        <GameController 
+          startGame={this.startGame} 
+          cardsInDeck={this.state.cardsInDeck} 
+          noOfPlayers={this.state.players.length} 
+          gameIsOn={this.state.gameIsOn}
+          addCards={this.state.addCards}
+        />
       </main>
     );
   }
