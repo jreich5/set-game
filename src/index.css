@@ -2,16 +2,9 @@
     box-sizing: border-box;
 }
 
-.App {
-    display: grid;
-    grid-template-columns: repeat(9, 1fr);
-    grid-template-rows: repeat(9, 1fr);
-    grid-gap: 10px;
-}
-
 body {
     text-align: center;
-    background: url("./img/table-background.jpg") no-repeat;
+    background: url("./img/table-background.jpg");
     background-size: 100% 100vh;
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
@@ -27,7 +20,7 @@ main {
 }
 
 header {
-    background: rosybrown;
+    background: darkgray;
     color: white;
     padding: .2em 0;
     font-size: 1.4em;
@@ -35,13 +28,13 @@ header {
 }
 
 .board-cards {
-    display: inline-grid;
+    width: 100%;
+    display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(3, 1fr);
     margin: 2em auto;
     grid-gap: 1em;
-    padding: 1em;
-    grid-auto-flow: column;
+    grid-auto-flow: auto;
     grid-area: cards;
 }
 .card {
@@ -67,7 +60,7 @@ header {
     grid-area: gameController;
     display: flex;
     flex-direction: column;
-    margin-top: 46px;
+    margin-top: 32px;
     align-items: center;
 }
 
