@@ -6,7 +6,7 @@ class GameController extends Component {
     return (
       <div className="game-controller">
         <button onClick={this.props.addCards} disabled={!this.props.gameIsOn}>Add Cards</button>
-        <button>Add Player</button>
+        <button onClick={this.props.addPlayer}>Add Player</button>
         <button onClick={this.props.startGame}>New Game</button>
         <button>End Game</button>
       </div>

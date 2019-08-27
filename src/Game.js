@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Board from './Board.js';
 import GameController from './GameController.js';
+import Players from './Players.js';
 
 class Game extends Component {
 
@@ -45,16 +46,27 @@ class Game extends Component {
     return (this.allSameOrDiff(colors) && this.allSameOrDiff(shapes) && this.allSameOrDiff(numbers) && this.allSameOrDiff(patterns));
   }
 
+  generatePlayerId = () => {
+    if (this.state.players.length !== 0) {
+      return this.state.players[this.state.players.length -1].playerNo + 1;
+    }
+    return 1;
+  }
+
   addPlayer = () => {
-    const playerNo = (this.state.players.length !== 0) ? this.state.players[this.state.players.length -1].playerNo + 1 : 1;
+    const playerNo = this.generatePlayerId();
     const score = 0;
     const name = "";
     const playerCards = [];
-    return {playerNo, score, name, playerCards};
+    this.setState(state => {
+      return {
+        players: state.players.concat([{playerNo, score, name, playerCards}])
+      };
+    }); 
   }
 
   deletePlayer = (playerNo) => {
-    this.setState(state => {players: state.players.filter(player => player.playerNo !== playerNo)});
+    this.setState(state => ({players: state.players.filter(player => player.playerNo !== playerNo)}));
   }
 
   startGame = (reset = false) => {
@@ -62,11 +74,11 @@ class Game extends Component {
     this.shuffle(cards);
     const boardCards = cards.splice(0, 12);
     const cardsInDeck = cards;
-    const players = [this.addPlayer()];
+    this.addPlayer();
     const gameIsOn = true;
     const setInPlay = false;
 
-    this.setState({boardCards, cardsInDeck, players, gameIsOn, setInPlay});
+    this.setState({boardCards, cardsInDeck, gameIsOn, setInPlay});
   }
 
   // setSetInPlay = bool => {
@@ -123,14 +135,17 @@ class Game extends Component {
         <header>
           <h1>Welcome to Set!</h1>
         </header>
-        <Board boardCards={this.state.boardCards} setInPlay={this.setInPlay} />
         <GameController 
           startGame={this.startGame} 
           cardsInDeck={this.state.cardsInDeck} 
           noOfPlayers={this.state.players.length} 
           gameIsOn={this.state.gameIsOn}
           addCards={this.addCards}
+          addPlayer={this.addPlayer}
         />
+        <Board boardCards={this.state.boardCards} setInPlay={this.setInPlay} />
+        {console.log(this.state.players)}
+        <Players players={this.state.players} />
       </main>
     );
   }
