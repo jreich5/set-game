@@ -88,7 +88,25 @@ class Game extends Component {
   }
 
   addCards = () => {
-    
+    if (this.state.cardsInDeck.length > 0 && this.state.boardCards.length < 18) {
+      let additionalCards;
+      if (this.state.cardsInDeck.length > 3) {
+        additionalCards = this.state.cardsInDeck.slice(0, 3);
+        this.setState(state => {
+          return state.cardsInDeck.filter((_, i) => i >= 3)
+        });
+      } else {
+        additionalCards = this.state.cardsInDeck.slice(0);  
+        this.setState({cardsInDeck: []});
+      }
+      this.setState(state => ({boardCards: state.boardCards.concat(additionalCards)}));
+    } else {
+      if (!this.state.cardsInDeck.length > 0) {
+        alert("No cards left in deck!");
+      } else {
+        alert("Cannot exceed 18 cards!");
+      }
+    }
   }
 
   startSet = () => {
@@ -105,14 +123,13 @@ class Game extends Component {
         <header>
           <h1>Welcome to Set!</h1>
         </header>
-        {console.log(this.state.players.length)}
         <Board boardCards={this.state.boardCards} setInPlay={this.setInPlay} />
         <GameController 
           startGame={this.startGame} 
           cardsInDeck={this.state.cardsInDeck} 
           noOfPlayers={this.state.players.length} 
           gameIsOn={this.state.gameIsOn}
-          addCards={this.state.addCards}
+          addCards={this.addCards}
         />
       </main>
     );

@@ -9,9 +9,7 @@ class Board extends Component {
 
   render() {
     return (
-      <div>
-        <Cards boardCards={this.props.boardCards} />
-      </div>
+      <Cards boardCards={this.props.boardCards} />
     );
   }
 }
