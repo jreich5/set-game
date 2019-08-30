@@ -5,7 +5,7 @@ class Players extends Component {
   render() {
     return (
       <div className="players">
-        {this.props.players.map(player => <Player  player={player} />)}
+        {this.props.players.map(player => <Player key={player.id} callSet={this.props.callSet} player={player} />)}
       </div>
     );
   }

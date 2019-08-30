@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import Board from './Board.js';
 import GameController from './GameController.js';
 import Players from './Players.js';
+import Timer from './Timer.js';
+import Card from '../entities/Card.js';
+import Player from '../entities/Player.js';
+import GameSet from '../entities/GameSet.js';
 
 class Game extends Component {
 
@@ -10,27 +14,7 @@ class Game extends Component {
     cardsInDeck: [],
     players: [],
     gameIsOn: false,
-    setInPlay: false
-  }
-
-  // from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-  shuffle = array => {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-  
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
-  
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-  
-      // And swap it with the current element.
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }
-  
-    return array;
+    setInProgress: null
   }
 
   allSameOrDiff = values => {
@@ -48,54 +32,53 @@ class Game extends Component {
 
   generatePlayerId = () => {
     if (this.state.players.length !== 0) {
-      return this.state.players[this.state.players.length -1].playerNo + 1;
+      console.log(this.state.players.length, "this.state.players.length");
+      return this.state.players[this.state.players.length -1].id + 1;
     }
     return 1;
   }
 
   addPlayer = () => {
-    const playerNo = this.generatePlayerId();
-    const score = 0;
-    const name = "";
-    const playerCards = [];
     this.setState(state => {
+
+      const id = this.generatePlayerId();
+      console.log(id);
+
       return {
-        players: state.players.concat([{playerNo, score, name, playerCards}])
+        players: state.players.concat([new Player(id)])
       };
     }); 
   }
 
-  deletePlayer = (playerNo) => {
-    this.setState(state => ({players: state.players.filter(player => player.playerNo !== playerNo)}));
+  deletePlayer = (id) => {
+    this.setState(state => ({players: state.players.filter(player => player.id !== id)}));
   }
 
-  startGame = (reset = false) => {
-    const cards = this.props.cards.slice(0);
-    this.shuffle(cards);
+  startGame = () => {
+    const cards = Card.createCards(this.props.cards.slice(0));
+    Card.shuffle(cards);
     const boardCards = cards.splice(0, 12);
     const cardsInDeck = cards;
-    this.addPlayer();
+    if (this.state.players.length === 0) {
+      this.addPlayer();
+    }
     const gameIsOn = true;
     const setInPlay = false;
 
     this.setState({boardCards, cardsInDeck, gameIsOn, setInPlay});
   }
 
-  // setSetInPlay = bool => {
-  //   this.setState({setInPlay: bool});
-  // }
-
-  // addCardToSet = (playerId, cardId) => {
-  //   if () {
-
-  //   }
-  // }
-
-  endGame = () => {
-
+  callSet = (e) => {
+    alert("Set in progress!");
+    this.setState({setInProgress: new GameSet(e.target.getAttribute('data-id'))});
+    setTimeout(function() {
+      console.log(this.state.setInProgress);
+    }.bind(this), 2000);
+    // set timer
+    // allow cards to be selected
   }
 
-  newGame = () => {
+  endGame = () => {
 
   }
 
@@ -121,19 +104,14 @@ class Game extends Component {
     }
   }
 
-  startSet = () => {
-
-  }
-
-  shuffleCards = () => {
-
-  }
-
   render() {
     return (
       <main>
         <header>
           <h1>Welcome to Set!</h1>
+          {
+            (this.state.setInProgress) ? <Timer setInProgress={this.state.setInProgress} /> : null
+          }
         </header>
         <GameController 
           startGame={this.startGame} 
@@ -144,8 +122,7 @@ class Game extends Component {
           addPlayer={this.addPlayer}
         />
         <Board boardCards={this.state.boardCards} setInPlay={this.setInPlay} />
-        {console.log(this.state.players)}
-        <Players players={this.state.players} />
+        <Players callSet={this.callSet} players={this.state.players} />
       </main>
     );
   }
